@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { WeatherAPI } from "@/lib/api/weather";
 import { Loader2 } from "lucide-react";
 import SearchResultItem from "./SearchResultItem";
-
+import { FiLoader } from "react-icons/fi";
 interface ModalSearchProps {
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
@@ -136,10 +136,10 @@ export default function ModalSearch({
           {isLoading && results.length === 0 && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center py-8">
-                <Loader2 className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-2" />
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <FiLoader className="w-8 h-8 text-gray-700 dark:text-gray-400 animate-spin mx-auto mb-2" />
+                {/* <p className="text-sm text-gray-500 dark:text-gray-400">
                   Searching cities...
-                </p>
+                </p> */}
               </div>
             </div>
           )}
