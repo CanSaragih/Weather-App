@@ -18,6 +18,7 @@ export interface WeatherData {
   humidity: number;
   wind_speed: number;
   pressure: number;
+  visibility: number;
   coord: {
     lat: number;
     lon: number;

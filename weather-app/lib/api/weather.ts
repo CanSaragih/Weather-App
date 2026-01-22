@@ -70,6 +70,7 @@ export class WeatherAPI {
         humidity: data.main.humidity,
         wind_speed: data.wind.speed,
         pressure: data.main.pressure,
+        visibility: data.visibility,
         coord: {
           lat: data.coord.lat,
           lon: data.coord.lon,
@@ -109,6 +110,7 @@ export class WeatherAPI {
         humidity: data.main.humidity,
         wind_speed: data.wind.speed,
         pressure: data.main.pressure,
+        visibility: data.visibility,
         coord: {
           lat: data.coord.lat,
           lon: data.coord.lon,

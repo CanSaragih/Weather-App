@@ -16,10 +16,10 @@ export default function SearchResultItem({
     <button
       onClick={() => onClick(city)}
       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 
-                 transition-colors rounded-lg text-left group"
+                 transition-colors duration-300 rounded-lg text-left group cursor-pointer"
     >
       <div
-        className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 
+        className="flex shrink-0 w-8 h-8 items-center justify-center bg-blue-100 dark:bg-blue-900/30 
                       rounded-full group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors"
       >
         <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />

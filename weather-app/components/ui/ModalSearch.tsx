@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import { WeatherAPI } from "@/lib/api/weather";
 import { Loader2 } from "lucide-react";
 import SearchResultItem from "./SearchResultItem";
-import { FiLoader } from "react-icons/fi";
+import { Spinner } from "./spinner";
+import { Kbd } from "./kbd";
 interface ModalSearchProps {
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
@@ -74,7 +75,7 @@ export default function ModalSearch({
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-      <DialogContent className="sm:max-w-[500px] max-h-[600px] flex flex-col">
+      <DialogContent className="flex flex-col">
         <DialogHeader>
           <DialogTitle>Search City</DialogTitle>
         </DialogHeader>
@@ -97,7 +98,7 @@ export default function ModalSearch({
         </div>
 
         {/* Search Results */}
-        <div className="flex-1 overflow-y-auto min-h-[200px] max-h-[400px]">
+        <div className="flex-1 overflow-y-auto">
           {/* Empty State */}
           {!query && !isLoading && results.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center py-8">
@@ -112,9 +113,9 @@ export default function ModalSearch({
           {error && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center py-8">
-                <p className="text-sm text-red-500 dark:text-red-400">
+                <Kbd className="text-sm text-red-600 bg-red-800/10 dark:text-red-500 dark:bg-red-500/20">
                   {error}
-                </p>
+                </Kbd>
               </div>
             </div>
           )}
@@ -136,10 +137,7 @@ export default function ModalSearch({
           {isLoading && results.length === 0 && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center py-8">
-                <FiLoader className="w-8 h-8 text-gray-700 dark:text-gray-400 animate-spin mx-auto mb-2" />
-                {/* <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Searching cities...
-                </p> */}
+                <Spinner className="w-8 h-8 text-gray-700 dark:text-gray-400 animate-spin mx-auto mb-2" />
               </div>
             </div>
           )}
