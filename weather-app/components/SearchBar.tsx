@@ -7,6 +7,7 @@ import { Kbd } from "./ui/kbd";
 import { MdKeyboardCommandKey } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import ModalSearch from "./ui/ModalSearch";
+import { City } from "@/lib/types/weather";
 
 export default function SearchBar() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -14,7 +15,6 @@ export default function SearchBar() {
 
   useEffect(() => {
     const handleKeysPress = (e: KeyboardEvent) => {
-      // Fix: Pisahkan kondisi Cmd+K dan Escape
       if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setModalOpen(true);
@@ -35,6 +35,12 @@ export default function SearchBar() {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [modalOpen]);
+
+  const handleCitySelect = (city: City) => {
+    console.log("Selected city:", city);
+    // TODO: Implement weather display
+    // You can pass this to parent component or use state management
+  };
 
   return (
     <>
@@ -64,6 +70,7 @@ export default function SearchBar() {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         inputRef={inputRef}
+        onCitySelect={handleCitySelect}
       />
     </>
   );
