@@ -6,10 +6,11 @@ import { useWeather } from "@/contexts/WeatherContext";
 
 export default function Home() {
   const { weather, isLoading } = useWeather();
+
   return (
-    <section className="min-h-screen p-4 bg-white dark:bg-dark-mode transition-colors">
+    <section className="min-h-screen py-20 px-4 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode transition-colors duration-500">
       {/* Weather Display */}
-      <div className="max-w-7xl mx-auto mt-32">
+      <div className="mx-auto w-full">
         {isLoading && <WeatherSkeleton />}
 
         {!isLoading && weather && <WeatherCard weather={weather} />}

@@ -11,9 +11,9 @@ export default function Navbar() {
   const { setWeather, setIsLoading } = useWeather();
 
   return (
-    <nav className="fixed top-0 w-full bg-white dark:bg-dark-mode shadow-md dark:shadow-black/20 h-16 px-4 md:px-8 lg:px-16 z-50">
+    <nav className="fixed top-0 w-full bg-white dark:bg-dark-mode shadow-md dark:shadow-black/20 h-15 md:h-18 xl:h-20 px-4 md:px-8 lg:px-16 z-50">
       <div className="flex items-center justify-between h-full">
-        <div className="text-zinc-100 flex items-center">
+        <div className="text-zinc-800 dark:text-zinc-100 flex items-center">
           <Link href="/">
             <button className="text-lg font-semibold cursor-pointer hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors duration-300">
               Weatherly

@@ -3,7 +3,7 @@ import Image from "next/image";
 interface WeatherIconProps {
   icon: string;
   description: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 export default function WeatherIcon({
@@ -15,6 +15,7 @@ export default function WeatherIcon({
     sm: { width: 48, height: 48 },
     md: { width: 80, height: 80 },
     lg: { width: 128, height: 128 },
+    xl: { width: 256, height: 256 },
   };
 
   const { width, height } = sizeConfig[size];

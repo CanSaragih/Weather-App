@@ -6,19 +6,19 @@ import WeatherDetails from "./WeatherDetails";
 import { MapPin, Calendar } from "lucide-react";
 import { formatDate } from "@/helpers/formatDate";
 import { getCountryName } from "@/helpers/countryName";
+import HeaderWeather from "./HeaderWeather";
 
 interface WeatherCardProps {
   weather: WeatherData;
 }
 
 export default function WeatherCard({ weather }: WeatherCardProps) {
-  console.log(">>>>>>> ", weather);
-
   return (
     <div className="bg-white dark:bg-dark-mode overflow-hidden">
       {/* Header */}
-      <div className="bg-transparent text-black dark:text-zinc-100">
-        <div className="flex flex-col items-center mb-12 space-y-1">
+      <div className="py-2">
+        <HeaderWeather weather={weather} />
+        {/* <div className="flex flex-col items-center mb-12 space-y-1">
           <h3 className="text-lg">{getCountryName(weather.sys.country)}</h3>
           <h1 className="text-3xl">{weather.city}</h1>
           <div className="flex items-center">
@@ -34,7 +34,7 @@ export default function WeatherCard({ weather }: WeatherCardProps) {
             <span>H: {weather.main.temp_max}°</span>
             <span>L: {weather.main.temp_min}°</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Header */}
