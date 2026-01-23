@@ -2,7 +2,6 @@
 
 import { Input } from "./ui/input";
 import { IoSearch } from "react-icons/io5";
-import ThemeToggle from "./ui/ThemeToggle";
 import { Kbd } from "./ui/kbd";
 import { MdKeyboardCommandKey } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
@@ -63,24 +62,21 @@ export default function SearchBar({
 
   return (
     <>
-      <div className="fixed top-22 left-0 right-0 px-10 z-40">
-        <div className="flex items-center gap-4 justify-end max-w-7xl ml-auto">
-          <ThemeToggle />
-          <div
-            className="relative max-w-md w-full cursor-pointer"
-            onClick={() => setModalOpen(true)}
-          >
-            <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-            <Kbd className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <MdKeyboardCommandKey className="size-3" /> K
-            </Kbd>
-            <Input
-              type="search"
-              placeholder="Search city..."
-              className="pl-10 pr-16 w-full cursor-pointer"
-              readOnly
-            />
-          </div>
+      <div className="flex items-center gap-4 justify-end max-w-7xl ml-auto">
+        <div
+          className="relative max-w-md w-full cursor-pointer"
+          onClick={() => setModalOpen(true)}
+        >
+          <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+          <Kbd className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <MdKeyboardCommandKey className="size-3" /> K
+          </Kbd>
+          <Input
+            type="search"
+            placeholder="Search city..."
+            className="pl-10 pr-20 cursor-pointer"
+            readOnly
+          />
         </div>
       </div>
 

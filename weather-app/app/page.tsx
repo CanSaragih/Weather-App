@@ -1,19 +1,13 @@
 "use client";
 
-import SearchBar from "@/components/SearchBar";
 import WeatherCard from "@/components/weather/WeatherCard";
 import WeatherSkeleton from "@/components/weather/WeatherSkeleton";
-import { WeatherData } from "@/lib/types/weather";
-import { useState } from "react";
+import { useWeather } from "@/contexts/WeatherContext";
 
 export default function Home() {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { weather, isLoading } = useWeather();
   return (
     <section className="min-h-screen p-4 bg-white dark:bg-dark-mode transition-colors">
-      <SearchBar onWeatherUpdate={setWeather} onLoadingChange={setIsLoading} />
-
       {/* Weather Display */}
       <div className="max-w-7xl mx-auto mt-32">
         {isLoading && <WeatherSkeleton />}

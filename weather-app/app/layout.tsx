@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/components/layout/Navbar";
+import { WeatherProvider } from "@/contexts/WeatherContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +36,10 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <WeatherProvider>
+            <Navbar />
+            {children}
+          </WeatherProvider>
         </ThemeProvider>
       </body>
     </html>
