@@ -15,7 +15,7 @@ export default function Home() {
       <SearchBar onWeatherUpdate={setWeather} onLoadingChange={setIsLoading} />
 
       {/* Weather Display */}
-      <div className="max-w-4xl mx-auto mt-32">
+      <div className="max-w-7xl mx-auto mt-32">
         {isLoading && <WeatherSkeleton />}
 
         {!isLoading && weather && <WeatherCard weather={weather} />}

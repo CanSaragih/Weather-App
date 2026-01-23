@@ -61,20 +61,43 @@ export class WeatherAPI {
       const data = await response.json();
 
       return {
-        city: data.name,
-        country: data.sys.country,
-        temperature: Math.round(data.main.temp),
-        feels_like: Math.round(data.main.feels_like),
-        description: data.weather[0].description,
-        icon: data.weather[0].icon,
-        humidity: data.main.humidity,
-        wind_speed: data.wind.speed,
-        pressure: data.main.pressure,
-        visibility: data.visibility,
         coord: {
           lat: data.coord.lat,
           lon: data.coord.lon,
         },
+        weather: {
+          main: data.weather[0].main,
+          description: data.weather[0].description,
+          icon: data.weather[0].icon,
+        },
+        base: data.base,
+        main: {
+          temp: data.main.temp,
+          feels_like: data.main.feels_like,
+          temp_min: data.main.temp_min,
+          temp_max: data.main.temp_max,
+          pressure: data.main.pressure,
+          humidity: data.main.humidity,
+          sea_level: data.main.sea_level,
+          grnd_level: data.main.grnd_level,
+        },
+        visibility: data.visibility,
+        wind: {
+          speed: data.wind.speed,
+          deg: data.wind.deg,
+        },
+        clouds: data.clouds.all,
+        sys: {
+          type: data.sys.type,
+          id: data.sys.id,
+          country: data.sys.country,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset,
+        },
+        timezone: data.timezone,
+        id: data.id,
+        city: data.name,
+        cod: data.cod,
       };
     } catch (error) {
       console.error("Error getting weather:", error);
@@ -101,20 +124,43 @@ export class WeatherAPI {
       const data = await response.json();
 
       return {
-        city: data.name,
-        country: data.sys.country,
-        temperature: Math.round(data.main.temp),
-        feels_like: Math.round(data.main.feels_like),
-        description: data.weather[0].description,
-        icon: data.weather[0].icon,
-        humidity: data.main.humidity,
-        wind_speed: data.wind.speed,
-        pressure: data.main.pressure,
-        visibility: data.visibility,
         coord: {
           lat: data.coord.lat,
           lon: data.coord.lon,
         },
+        weather: {
+          main: data.weather[0].main,
+          description: data.weather[0].description,
+          icon: data.weather[0].icon,
+        },
+        base: data.base,
+        main: {
+          temp: data.main.temp,
+          feels_like: data.main.feels_like,
+          temp_min: data.main.temp_min,
+          temp_max: data.main.temp_max,
+          pressure: data.main.pressure,
+          humidity: data.main.humidity,
+          sea_level: data.main.sea_level,
+          grnd_level: data.main.grnd_level,
+        },
+        visibility: data.visibility,
+        wind: {
+          speed: data.wind.speed,
+          deg: data.wind.deg,
+        },
+        clouds: data.clouds.all,
+        sys: {
+          type: data.sys.type,
+          id: data.sys.id,
+          country: data.sys.country,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset,
+        },
+        timezone: data.timezone,
+        id: data.id,
+        city: data.name,
+        cod: data.cod,
       };
     } catch (error) {
       console.error("Error getting weather by coords:", error);

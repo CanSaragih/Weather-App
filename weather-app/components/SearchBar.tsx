@@ -63,7 +63,7 @@ export default function SearchBar({
 
   return (
     <>
-      <div className="fixed top-10 left-0 right-0 px-10 z-40">
+      <div className="fixed top-22 left-0 right-0 px-10 z-40">
         <div className="flex items-center gap-4 justify-end max-w-7xl ml-auto">
           <ThemeToggle />
           <div

@@ -4,39 +4,57 @@ import { WeatherData } from "@/lib/types/weather";
 import WeatherIcon from "./WeatherIcon";
 import WeatherDetails from "./WeatherDetails";
 import { MapPin, Calendar } from "lucide-react";
+import { formatDate } from "@/helpers/formatDate";
+import { getCountryName } from "@/helpers/countryName";
 
 interface WeatherCardProps {
   weather: WeatherData;
 }
 
 export default function WeatherCard({ weather }: WeatherCardProps) {
-  const currentDate = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  console.log(">>>>>>> ", weather);
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+    <div className="bg-white dark:bg-dark-mode overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-br from-blue-500 to-blue-700 dark:from-blue-600 dark:to-blue-900 p-6 text-white">
+      <div className="bg-transparent text-black dark:text-zinc-100">
+        <div className="flex flex-col items-center mb-12 space-y-1">
+          <h3 className="text-lg">{getCountryName(weather.sys.country)}</h3>
+          <h1 className="text-3xl">{weather.city}</h1>
+          <div className="flex items-center">
+            <h1 className="text-6xl font-bold">{weather.main.temp}°</h1>
+            <WeatherIcon
+              icon={weather.weather.icon}
+              description={weather.weather.description}
+              size="sm"
+            />
+          </div>
+          <h3 className="text-lg capitalize">{weather.weather.description}</h3>
+          <div className="flex items-center gap-2 text-zinc-400 text-sm font-medium">
+            <span>H: {weather.main.temp_max}°</span>
+            <span>L: {weather.main.temp_min}°</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Header */}
+      <div className="p-6 text-white">
         <div className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-5 h-5" />
               <h2 className="text-2xl font-bold">
-                {weather.city}, {weather.country}
+                {weather.city}, {weather.sys.country}
               </h2>
             </div>
             <div className="flex items-center gap-2 text-blue-100">
               <Calendar className="w-4 h-4" />
-              <p className="text-sm">{currentDate}</p>
+              <p className="text-sm">{formatDate()}</p>
             </div>
           </div>
           <WeatherIcon
-            icon={weather.icon}
-            description={weather.description}
+            icon={weather.weather.icon}
+            description={weather.weather.description}
             size="md"
           />
         </div>
@@ -44,8 +62,10 @@ export default function WeatherCard({ weather }: WeatherCardProps) {
         {/* Temperature */}
         <div className="flex items-end gap-4">
           <div>
-            <p className="text-6xl font-bold">{weather.temperature}°</p>
-            <p className="text-xl capitalize mt-2">{weather.description}</p>
+            <p className="text-6xl font-bold">{weather.main.temp}°</p>
+            <p className="text-xl capitalize mt-2">
+              {weather.weather.description}
+            </p>
           </div>
         </div>
       </div>
@@ -53,11 +73,11 @@ export default function WeatherCard({ weather }: WeatherCardProps) {
       {/* Details */}
       <div className="p-6">
         <WeatherDetails
-          humidity={weather.humidity}
-          windSpeed={weather.wind_speed}
-          pressure={weather.pressure}
+          humidity={weather.main.humidity}
+          windSpeed={weather.wind.speed}
+          pressure={weather.main.pressure}
           visibility={weather.visibility}
-          feelsLike={weather.feels_like}
+          feelsLike={weather.main.feels_like}
         />
       </div>
 
