@@ -26,8 +26,6 @@ export default function DateSelector({
     return acc;
   }, []);
 
-  console.log("Daily forecast:", dailyForecast);
-
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
       {dailyForecast.slice(0, 7).map((item) => {
@@ -35,21 +33,23 @@ export default function DateSelector({
         const isSelected = isSameDay(date, selectedDate);
 
         return (
-          <button
-            key={item.dt}
-            onClick={() => onDateSelect(date, item)}
-            className={`flex flex-col items-center justify-center min-w-[48px] h-[48px] rounded-full transition-all shrink-0
-              ${
-                isSelected
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
-          >
-            <span className="text-xs font-medium">
-              {format(date, "EEE").toLowerCase().charAt(0)}
-            </span>
-            <span className="text-sm font-bold">{format(date, "d")}</span>
-          </button>
+          <>
+            <div className="flex flex-col items-center gap-2" key={item.dt}>
+              <span
+                className={`text-xs font-medium ${isSelected ? "text-zinc-400 dark:text-zinc-500" : "text-zinc-500 dark:text-zinc-400"}`}
+              >
+                {format(date, "EEE").toLowerCase().charAt(0)}
+              </span>
+              <button
+                key={item.dt}
+                onClick={() => onDateSelect(date, item)}
+                className={`min-w-10 h-10 rounded-full transition-all shrink-0 cursor-pointer duration-300
+                ${isSelected ? "bg-blue-600/80 dark:bg-blue-600/50 text-white" : "bg-gray-100 dark:bg-gray-700/50 text-zinc-800 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-gray-600/70"}`}
+              >
+                <span className="text-md font-bold">{format(date, "d")}</span>
+              </button>
+            </div>
+          </>
         );
       })}
     </div>

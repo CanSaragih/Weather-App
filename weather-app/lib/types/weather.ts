@@ -69,6 +69,7 @@ export interface ForecastItem {
   };
   visibility: number;
   dt_text: string;
+  icon: string;
 }
 
 export interface ForecastData {
