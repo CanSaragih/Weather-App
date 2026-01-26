@@ -1,29 +1,61 @@
-import { WeatherData } from "@/lib/types/weather";
+import { WeatherData, ForecastItem } from "@/lib/types/weather";
 import WeatherIcon from "./WeatherIcon";
+import { format, isToday } from "date-fns";
+import DateSelector from "./DateSelector";
 
-export default function HeaderWeather({ weather }: { weather: WeatherData }) {
-  console.log(">>>> INI DATA", weather);
+interface HeaderWeatherProps {
+  weather: WeatherData;
+  forecast?: ForecastItem[];
+  selectedDate?: Date;
+  selectedForecast?: ForecastItem | null;
+  onDateSelect?: (date: Date, item: ForecastItem) => void;
+}
+
+export default function HeaderWeather({
+  weather,
+  forecast,
+  selectedDate = new Date(),
+  selectedForecast,
+  onDateSelect,
+}: HeaderWeatherProps) {
+  // Data yang akan ditampilkan (forecast jika ada, atau weather current)
+  const displayData = selectedForecast || {
+    weather: weather.weather,
+    main: weather.main,
+  };
+
+  const displayCity = weather.city;
+  const isCurrentDay = isToday(selectedDate);
 
   return (
-    <div className="flex items-center justify-between ">
-      <div className="flex items-center gap-4">
-        <WeatherIcon
-          icon={weather.weather.icon}
-          description={weather.weather.description}
-          size="xl"
-        />
-        <h1 className="text-6xl font-bold text-zinc-800 dark:text-zinc-100">
-          {weather.city}
-          {",  "}
-        </h1>
-        <h1 className="text-6xl font-bold text-zinc-800 dark:text-zinc-100 mr-2">
-          {weather.main.temp}°
-        </h1>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <WeatherIcon
+            icon={displayData.weather.icon}
+            description={displayData.weather.description}
+            size="xl"
+          />
+          <h1 className="text-6xl font-bold text-zinc-800 dark:text-zinc-100">
+            {displayCity},{" "}
+          </h1>
+          <h1 className="text-6xl font-bold text-zinc-800 dark:text-zinc-100 mr-2">
+            {Math.round(displayData.main.temp)}°
+          </h1>
 
-        {/* jika hari sekarang gunakan today dan jika tidak hari sekarang hitung dari hari sekarang */}
-        <h1 className="text-6xl font-bold text-zinc-400 dark:text-zinc-500">
-          Today
-        </h1>
+          <h1 className="text-6xl font-bold text-zinc-400 dark:text-zinc-500">
+            {isCurrentDay ? "Today" : format(selectedDate, "MMM d")}
+          </h1>
+        </div>
+
+        {/* Date Selector */}
+        {forecast && forecast.length > 0 && onDateSelect && (
+          <DateSelector
+            forecast={forecast}
+            selectedDate={selectedDate}
+            onDateSelect={onDateSelect}
+          />
+        )}
       </div>
     </div>
   );

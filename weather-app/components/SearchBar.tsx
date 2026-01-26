@@ -6,16 +6,18 @@ import { Kbd } from "./ui/kbd";
 import { MdKeyboardCommandKey } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import ModalSearch from "./ui/ModalSearch";
-import { City, WeatherData } from "@/lib/types/weather";
+import { City, ForecastData, WeatherData } from "@/lib/types/weather";
 import { WeatherAPI } from "@/lib/api/weather";
 
 interface SearchBarProps {
   onWeatherUpdate: (weather: WeatherData | null) => void;
+  onForecastUpdate: (forecast: ForecastData | null) => void;
   onLoadingChange: (loading: boolean) => void;
 }
 
 export default function SearchBar({
   onWeatherUpdate,
+  onForecastUpdate,
   onLoadingChange,
 }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -45,16 +47,19 @@ export default function SearchBar({
   }, [modalOpen]);
 
   const handleCitySelect = async (city: City) => {
+    setModalOpen(false);
     onLoadingChange(true);
     try {
-      const weatherData = await WeatherAPI.getWeatherByCoords(
-        city.coord.lat,
-        city.coord.lon,
-      );
+      const [weatherData, forecastData] = await Promise.all([
+        WeatherAPI.getWeatherByCoords(city.coord.lat, city.coord.lon),
+        WeatherAPI.getForecastByCoords(city.coord.lat, city.coord.lon),
+      ]);
       onWeatherUpdate(weatherData);
+      onForecastUpdate(forecastData);
     } catch (error) {
       console.error("Failed to fetch weather:", error);
       onWeatherUpdate(null);
+      onForecastUpdate(null);
     } finally {
       onLoadingChange(false);
     }

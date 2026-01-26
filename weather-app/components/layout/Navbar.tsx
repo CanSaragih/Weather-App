@@ -8,7 +8,7 @@ import SearchBar from "../SearchBar";
 import { useWeather } from "@/contexts/WeatherContext";
 
 export default function Navbar() {
-  const { setWeather, setIsLoading } = useWeather();
+  const { setWeather, setForecast, setIsLoading } = useWeather();
 
   return (
     <nav className="fixed top-0 w-full bg-white dark:bg-dark-mode shadow-md dark:shadow-black/20 h-15 md:h-18 xl:h-20 px-4 md:px-8 lg:px-16 z-50">
@@ -23,6 +23,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4 text-zinc-800 dark:text-zinc-100">
           <SearchBar
             onWeatherUpdate={setWeather}
+            onForecastUpdate={setForecast}
             onLoadingChange={setIsLoading}
           />
           <ToggelButton />

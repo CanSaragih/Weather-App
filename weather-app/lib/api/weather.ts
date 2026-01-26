@@ -1,4 +1,4 @@
-import { City, WeatherData } from "../types/weather";
+import { City, ForecastData, WeatherData } from "../types/weather";
 
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 const BASE_URL = "https://api.openweathermap.org";
@@ -164,6 +164,51 @@ export class WeatherAPI {
       };
     } catch (error) {
       console.error("Error getting weather by coords:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * get 5 day forecast by city name
+   */
+  static async getForecast(city: string): Promise<ForecastData> {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to get forecast data");
+      }
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.log("Error getting forecast:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * get 5 day forecast by coordinates
+   */
+  static async getForecastByCoords(
+    lat: number,
+    lon: number,
+  ): Promise<ForecastData> {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`,
+      );
+
+      if (!response.ok) throw new Error("Failed to get forecast data");
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.log("Error getting forecast:", error);
       throw error;
     }
   }

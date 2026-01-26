@@ -1,83 +1,54 @@
 "use client";
 
-import { WeatherData } from "@/lib/types/weather";
-import WeatherIcon from "./WeatherIcon";
+import { WeatherData, ForecastData, ForecastItem } from "@/lib/types/weather";
 import WeatherDetails from "./WeatherDetails";
-import { MapPin, Calendar } from "lucide-react";
-import { formatDate } from "@/helpers/formatDate";
-import { getCountryName } from "@/helpers/countryName";
 import HeaderWeather from "./HeaderWeather";
+import { useState } from "react";
 
 interface WeatherCardProps {
   weather: WeatherData;
+  forecast?: ForecastData | null;
 }
 
-export default function WeatherCard({ weather }: WeatherCardProps) {
+export default function WeatherCard({ weather, forecast }: WeatherCardProps) {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedForecast, setSelectedForecast] = useState<ForecastItem | null>(
+    null,
+  );
+
+  const handleDateSelect = (date: Date, item: ForecastItem) => {
+    setSelectedDate(date);
+    setSelectedForecast(item);
+  };
+
+  // Data yang akan ditampilkan
+  const displayData = selectedForecast || {
+    main: weather.main,
+    wind: weather.wind,
+    visibility: weather.visibility,
+  };
+
   return (
     <div className="bg-white dark:bg-dark-mode overflow-hidden">
       {/* Header */}
       <div className="py-2">
-        <HeaderWeather weather={weather} />
-        {/* <div className="flex flex-col items-center mb-12 space-y-1">
-          <h3 className="text-lg">{getCountryName(weather.sys.country)}</h3>
-          <h1 className="text-3xl">{weather.city}</h1>
-          <div className="flex items-center">
-            <h1 className="text-6xl font-bold">{weather.main.temp}°</h1>
-            <WeatherIcon
-              icon={weather.weather.icon}
-              description={weather.weather.description}
-              size="sm"
-            />
-          </div>
-          <h3 className="text-lg capitalize">{weather.weather.description}</h3>
-          <div className="flex items-center gap-2 text-zinc-400 text-sm font-medium">
-            <span>H: {weather.main.temp_max}°</span>
-            <span>L: {weather.main.temp_min}°</span>
-          </div>
-        </div> */}
-      </div>
-
-      {/* Header */}
-      <div className="p-6 text-white">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <MapPin className="w-5 h-5" />
-              <h2 className="text-2xl font-bold">
-                {weather.city}, {weather.sys.country}
-              </h2>
-            </div>
-            <div className="flex items-center gap-2 text-blue-100">
-              <Calendar className="w-4 h-4" />
-              <p className="text-sm">{formatDate()}</p>
-            </div>
-          </div>
-          <WeatherIcon
-            icon={weather.weather.icon}
-            description={weather.weather.description}
-            size="md"
-          />
-        </div>
-
-        {/* Temperature */}
-        <div className="flex items-end gap-4">
-          <div>
-            <p className="text-6xl font-bold">{weather.main.temp}°</p>
-            <p className="text-xl capitalize mt-2">
-              {weather.weather.description}
-            </p>
-          </div>
-        </div>
+        <HeaderWeather
+          weather={weather}
+          forecast={forecast?.list}
+          selectedDate={selectedDate}
+          selectedForecast={selectedForecast}
+          onDateSelect={handleDateSelect}
+        />
       </div>
 
       {/* Details */}
       <div className="p-6">
         <WeatherDetails
-          humidity={weather.main.humidity}
-          windSpeed={weather.wind.speed}
-          pressure={weather.main.pressure}
-          visibility={weather.visibility}
-          feelsLike={weather.main.feels_like}
+          humidity={displayData.main.humidity}
+          windSpeed={displayData.wind.speed}
+          pressure={displayData.main.pressure}
+          visibility={displayData.visibility}
+          feelsLike={displayData.main.feels_like}
         />
       </div>
 
