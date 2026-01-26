@@ -34,7 +34,7 @@ export default function DateSelector({
 
         return (
           <>
-            <div className="flex flex-col items-center gap-2" key={item.dt}>
+            <div className="flex flex-col items-center gap-2">
               <span
                 className={`text-xs font-medium ${isSelected ? "text-zinc-400 dark:text-zinc-500" : "text-zinc-500 dark:text-zinc-400"}`}
               >

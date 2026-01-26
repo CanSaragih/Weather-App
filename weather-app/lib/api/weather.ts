@@ -65,11 +65,13 @@ export class WeatherAPI {
           lat: data.coord.lat,
           lon: data.coord.lon,
         },
-        weather: {
-          main: data.weather[0].main,
-          description: data.weather[0].description,
-          icon: data.weather[0].icon,
-        },
+        weather: [
+          {
+            main: data.weather[0].main,
+            description: data.weather[0].description,
+            icon: data.weather[0].icon,
+          },
+        ],
         base: data.base,
         main: {
           temp: data.main.temp,
@@ -128,11 +130,13 @@ export class WeatherAPI {
           lat: data.coord.lat,
           lon: data.coord.lon,
         },
-        weather: {
-          main: data.weather[0].main,
-          description: data.weather[0].description,
-          icon: data.weather[0].icon,
-        },
+        weather: [
+          {
+            main: data.weather[0].main,
+            description: data.weather[0].description,
+            icon: data.weather[0].icon,
+          },
+        ],
         base: data.base,
         main: {
           temp: data.main.temp,

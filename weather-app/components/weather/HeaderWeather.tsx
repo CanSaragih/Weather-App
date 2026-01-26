@@ -19,10 +19,15 @@ export default function HeaderWeather({
   onDateSelect,
 }: HeaderWeatherProps) {
   // Data yang akan ditampilkan (forecast jika ada, atau weather current)
-  const displayData = selectedForecast || {
-    weather: weather.weather,
-    main: weather.main,
-  };
+  const displayData = selectedForecast
+    ? {
+        weather: selectedForecast.weather[0],
+        main: selectedForecast.main,
+      }
+    : {
+        weather: weather.weather[0],
+        main: weather.main,
+      };
 
   const displayCity = weather.city;
   const isCurrentDay = isToday(selectedDate);

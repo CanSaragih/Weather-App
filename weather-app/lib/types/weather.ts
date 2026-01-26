@@ -13,11 +13,11 @@ export interface WeatherData {
     lat: number;
     lon: number;
   };
-  weather: {
+  weather: Array<{
     main: string;
     description: string;
     icon: string;
-  };
+  }>;
   base: string;
   main: {
     temp: number;
@@ -58,18 +58,17 @@ export interface ForecastItem {
     pressure: number;
     humidity: number;
   };
-  weather: {
+  weather: Array<{
     main: string;
     description: string;
     icon: string;
-  };
+  }>;
   wind: {
     speed: number;
     deg: number;
   };
   visibility: number;
   dt_text: string;
-  icon: string;
 }
 
 export interface ForecastData {

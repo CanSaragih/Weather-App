@@ -23,7 +23,7 @@ export default function WeatherIcon({
   return (
     <Image
       src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
-      alt={description}
+      alt={"Weather icon: " + description}
       width={width}
       height={height}
       className="object-contain"
