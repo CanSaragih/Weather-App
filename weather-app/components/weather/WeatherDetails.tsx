@@ -1,6 +1,6 @@
-import { Droplets, Wind, Gauge, Eye } from "lucide-react";
-import ForecastCard from "./ForecastCard";
 import { ForecastItem } from "@/lib/types/weather";
+import ForecastCard from "./detail/ForecastCard";
+import PrecipitationCard from "./detail/PrecipitationCard";
 
 interface WeatherDetailsProps {
   humidity: number;
@@ -20,9 +20,12 @@ export default function WeatherDetails({
   forecast,
 }: WeatherDetailsProps) {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-8">
       {/* Forecast */}
       {forecast && forecast.length > 0 && <ForecastCard forecast={forecast} />}
+
+      {/* Precipitation */}
+      <PrecipitationCard />
     </div>
   );
 }

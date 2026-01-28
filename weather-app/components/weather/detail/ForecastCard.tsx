@@ -1,6 +1,6 @@
 import { ForecastItem } from "@/lib/types/weather";
 import { format, isSameDay, startOfDay } from "date-fns";
-import WeatherIcon from "./WeatherIcon";
+import WeatherIcon from "../WeatherIcon";
 
 interface ForecastCardProps {
   forecast: ForecastItem[];
@@ -39,7 +39,7 @@ export default function ForecastCard({ forecast }: ForecastCardProps) {
 
   return (
     <div className="rounded border-2 border-slate-100 bg-white dark:border-border-card-dark-mode dark:bg-card-dark-mode p-6">
-      <h2 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-6">
+      <h2 className="text-lg font-semibold text-blue-950/70 dark:text-slate-300 mb-6">
         Forecast
       </h2>
       <div className="space-y-3">
@@ -65,7 +65,7 @@ export default function ForecastCard({ forecast }: ForecastCardProps) {
           return (
             <div
               key={day.dt}
-              className="flex items-center gap-4 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-hover-card-dark-mode transition-colors"
+              className="flex items-center gap-4 px-2 rounded-md hover:bg-slate-50 dark:hover:bg-hover-card-dark-mode transition-colors duration-300"
             >
               {/* Day & Icon */}
               <div className="flex items-center gap-3 w-28">
