@@ -20,12 +20,12 @@ export default function WeatherDetails({
   forecast,
 }: WeatherDetailsProps) {
   return (
-    <div className="grid grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 ">
       {/* Forecast */}
       {forecast && forecast.length > 0 && <ForecastCard forecast={forecast} />}
 
       {/* Precipitation */}
-      <PrecipitationCard />
+      <PrecipitationCard forecast={forecast || []} />
     </div>
   );
 }

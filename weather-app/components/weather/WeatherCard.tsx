@@ -57,8 +57,8 @@ export default function WeatherCard({ weather, forecast }: WeatherCardProps) {
       <div className="px-6 pb-6">
         <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
           <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
-            Coordinates: {weather.coord.lat.toFixed(4)},{" "}
-            {weather.coord.lon.toFixed(4)}
+            Coordinates: {weather.coord.lat.toFixed(6)},{" "}
+            {weather.coord.lon.toFixed(6)}
           </p>
         </div>
       </div>
