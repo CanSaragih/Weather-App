@@ -44,7 +44,7 @@ export default function DateSelector({
                 key={item.dt}
                 onClick={() => onDateSelect(date, item)}
                 className={`min-w-10 h-10 rounded-full transition-all shrink-0 cursor-pointer duration-300
-                ${isSelected ? "bg-blue-600/80 dark:bg-blue-600/50 text-white" : "bg-gray-100 dark:bg-gray-700/50 text-zinc-800 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-gray-600/70"}`}
+                ${isSelected ? "bg-slate-400/80 dark:bg-slate-600 text-white" : "bg-slate-100 dark:bg-slate-700/60 text-zinc-600 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-gray-600/70"}`}
               >
                 <span className="text-md font-bold">{format(date, "d")}</span>
               </button>

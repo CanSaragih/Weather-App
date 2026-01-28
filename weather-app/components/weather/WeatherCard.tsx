@@ -49,6 +49,7 @@ export default function WeatherCard({ weather, forecast }: WeatherCardProps) {
           pressure={displayData.main.pressure}
           visibility={displayData.visibility}
           feelsLike={displayData.main.feels_like}
+          forecast={forecast?.list}
         />
       </div>
 

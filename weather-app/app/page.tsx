@@ -8,7 +8,7 @@ export default function Home() {
   const { weather, forecast, isLoading } = useWeather();
 
   return (
-    <section className="min-h-screen py-20 px-4 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode transition-colors duration-500">
+    <section className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode transition-colors duration-500">
       <div className="mx-auto w-full">
         {isLoading && <WeatherSkeleton />}
 

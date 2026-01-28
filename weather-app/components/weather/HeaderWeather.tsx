@@ -48,7 +48,7 @@ export default function HeaderWeather({
             {Math.round(displayData.main.temp)}°
           </h1>
 
-          <h1 className="text-6xl font-bold text-zinc-400 dark:text-zinc-500">
+          <h1 className="text-6xl font-bold text-zinc-400/60 dark:text-zinc-500/50">
             {isCurrentDay ? "Today" : format(selectedDate, "MMM d")}
           </h1>
         </div>

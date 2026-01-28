@@ -10,6 +10,9 @@
   --font-mono: var(--font-geist-mono);
 
   --color-dark-mode: var(--dark-mode);
+  --color-card-dark-mode: var(--card-dark-mode);
+  --color-border-card-dark-mode: var(--border-card-dark-mode);
+  --color-hover-card-dark-mode: var(--hover-card-dark-mode);
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -55,6 +58,9 @@
   --foreground: oklch(0.145 0 0);
 
   --dark-mode: #1f1f1f;
+  --card-dark-mode: #222222;
+  --border-card-dark-mode: #2a2a2a;
+  --hover-card-dark-mode: #272727;
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
