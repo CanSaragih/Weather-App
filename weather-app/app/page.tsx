@@ -42,7 +42,7 @@ export default function Home() {
       )}
 
       {!isLoading && weather && (
-        <div className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode transition-colors duration-500">
+        <div className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode ">
           <div className="mx-auto w-full">
             <WeatherCard weather={weather} forecast={forecast} />
           </div>
@@ -50,7 +50,7 @@ export default function Home() {
       )}
 
       {isLoading && (
-        <div className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode transition-colors duration-500">
+        <div className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode">
           <div className="mx-auto w-full">
             <WeatherSkeleton />
           </div>

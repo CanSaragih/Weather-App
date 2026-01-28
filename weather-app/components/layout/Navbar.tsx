@@ -6,6 +6,7 @@ import ToggelButton from "../ui/ThemeToggle";
 import { Button } from "../ui/button";
 import SearchBar from "../SearchBar";
 import { useWeather } from "@/contexts/WeatherContext";
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 export default function Navbar() {
   const { setWeather, setForecast, setIsLoading } = useWeather();
@@ -35,7 +36,9 @@ export default function Navbar() {
             onForecastUpdate={setForecast}
             onLoadingChange={setIsLoading}
           />
-          <ToggelButton />
+          {/* <ToggelButton /> */}
+
+          <AnimatedThemeToggler className="border-gray-200 dark:border-gray-700/70 rounded-md" />
           <Button
             variant="ghost"
             size="icon-lg"

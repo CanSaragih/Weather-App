@@ -4,6 +4,7 @@ import { WeatherData, ForecastData, ForecastItem } from "@/lib/types/weather";
 import WeatherDetails from "./WeatherDetails";
 import HeaderWeather from "./HeaderWeather";
 import { useState } from "react";
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 interface WeatherCardProps {
   weather: WeatherData;
