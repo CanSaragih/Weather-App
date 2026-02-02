@@ -16,7 +16,7 @@ export default function CurrentLocationButton({
       onClick={handleCurrentLocation}
       disabled={isGettingLocation}
       variant={"outline"}
-      className="w-full justify-start gap-3 h-12 border-2 border-dashed hover:border-blue-500 dark:hover:border-blue-400/50 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all duration-300 cursor-pointer mt-2"
+      className="w-full justify-start gap-3 h-12 border-2 border-dashed hover:border-blue-500/30 dark:hover:border-blue-400/50 hover:bg-blue-100/60 dark:hover:bg-blue-950/20 transition-all duration-300 cursor-pointer mt-2"
     >
       {isGettingLocation ? (
         <>

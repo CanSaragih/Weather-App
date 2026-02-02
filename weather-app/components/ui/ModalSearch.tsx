@@ -177,10 +177,8 @@ export default function ModalSearch({
 
         {/* Search Results */}
         <div className="flex-1 overflow-y-auto">
-          {/* Empty State */}
           {!query && !isLoading && results.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center py-8">
-              {/* <IoSearch className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" /> */}
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Start typing to search for a city
               </p>
