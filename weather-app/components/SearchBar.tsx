@@ -65,6 +65,25 @@ export default function SearchBar({
     }
   };
 
+  const handleCurrentLocation = async (lat: number, lon: number) => {
+    setModalOpen(false);
+    onLoadingChange(true);
+    try {
+      const [weatherData, forecastData] = await Promise.all([
+        WeatherAPI.getWeatherByCoords(lat, lon),
+        WeatherAPI.getForecastByCoords(lat, lon),
+      ]);
+      onWeatherUpdate(weatherData);
+      onForecastUpdate(forecastData);
+    } catch (error) {
+      console.log("Failed to fetch weather", error);
+      onWeatherUpdate(null);
+      onForecastUpdate(null);
+    } finally {
+      onLoadingChange(false);
+    }
+  };
+
   return (
     <>
       <div className="flex items-center gap-4 justify-end max-w-7xl ml-auto">
@@ -91,6 +110,7 @@ export default function SearchBar({
         setModalOpen={setModalOpen}
         inputRef={inputRef}
         onCitySelect={handleCitySelect}
+        onCurrentLocation={handleCurrentLocation}
       />
     </>
   );
