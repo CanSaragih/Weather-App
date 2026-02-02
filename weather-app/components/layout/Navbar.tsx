@@ -71,7 +71,7 @@ export default function Navbar({ className }: { className?: string }) {
           onForecastUpdate={setForecast}
           onLoadingChange={setIsLoading}
         />
-        <AnimatedThemeToggler className="border-gray-200 dark:border-gray-700/70 rounded-md" />
+        <AnimatedThemeToggler className="border-gray-200 dark:border-gray-700/70" />
         {/* <Button
           variant="ghost"
           size="icon-lg"

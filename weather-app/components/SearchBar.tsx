@@ -79,7 +79,7 @@ export default function SearchBar({
           <Input
             type="search"
             placeholder="Search city..."
-            className="pl-10 pr-20 cursor-pointer"
+            className="pl-10 pr-20 cursor-pointer rounded-full"
             readOnly
           />
         </div>

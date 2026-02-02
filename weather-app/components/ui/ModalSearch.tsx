@@ -86,7 +86,7 @@ export default function ModalSearch({
           <Input
             ref={inputRef}
             type="search"
-            placeholder="Type city name..."
+            placeholder="Search for a city..."
             className="pl-10 w-full"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

@@ -1,6 +1,5 @@
 "use client";
 
-import LightRays from "@/components/LightRays";
 import { Spotlight } from "@/components/ui/spotlight";
 import WeatherCard from "@/components/weather/WeatherCard";
 import WeatherSkeleton from "@/components/weather/WeatherSkeleton";
@@ -13,10 +12,10 @@ export default function Home() {
   return (
     <section className="min-h-screen">
       {!isLoading && !weather && (
-        <div className="fixed inset-0 w-full h-screen overflow-hidden bg-black/[0.96] antialiased flex items-center justify-center">
+        <div className="fixed inset-0 w-full h-screen overflow-hidden bg-black/96 antialiased flex items-center justify-center">
           <div
             className={cn(
-              "pointer-events-none absolute inset-0 [background-size:40px_40px] select-none",
+              "pointer-events-none absolute inset-0 [background-size:45px_45px] select-none",
               "[background-image:linear-gradient(to_right,#171717_1px,transparent_1px),linear-gradient(to_bottom,#171717_1px,transparent_1px)]",
             )}
           />
@@ -42,7 +41,7 @@ export default function Home() {
       )}
 
       {!isLoading && weather && (
-        <div className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode ">
+        <div className="min-h-screen py-25 md:py-25 md:px-10 xl:py-25 xl:px-20 bg-white dark:bg-dark-mode ">
           <div className="mx-auto w-full">
             <WeatherCard weather={weather} forecast={forecast} />
           </div>
@@ -50,7 +49,7 @@ export default function Home() {
       )}
 
       {isLoading && (
-        <div className="min-h-screen py-20 md:py-25 md:px-10 xl:py-20 xl:px-20 bg-white dark:bg-dark-mode">
+        <div className="min-h-screen py-25 md:py-25 md:px-10 xl:py-25 xl:px-20 bg-white dark:bg-dark-mode">
           <div className="mx-auto w-full">
             <WeatherSkeleton />
           </div>
