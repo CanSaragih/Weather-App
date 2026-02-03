@@ -1,6 +1,7 @@
 import { ForecastItem } from "@/lib/types/weather";
 import ForecastCard from "./detail/ForecastCard";
 import PrecipitationCard from "./detail/PrecipitationCard";
+import ComparisionCard from "./detail/ComparisonCard";
 
 interface WeatherDetailsProps {
   humidity: number;
@@ -25,7 +26,14 @@ export default function WeatherDetails({
       {forecast && forecast.length > 0 && <ForecastCard forecast={forecast} />}
 
       {/* Precipitation */}
-      <PrecipitationCard forecast={forecast || []} />
+      {forecast && forecast.length > 0 && (
+        <PrecipitationCard forecast={forecast} />
+      )}
+
+      {/* Comparison by day*/}
+      {forecast && forecast.length > 0 && (
+        <ComparisionCard forecast={forecast} />
+      )}
     </div>
   );
 }
