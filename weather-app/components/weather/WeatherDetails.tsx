@@ -29,7 +29,7 @@ export default function WeatherDetails({
 
       {/* Precipitation */}
       {forecast && forecast.length > 0 && (
-        <PrecipitationCard forecast={forecast} />
+        <PrecipitationCard forecast={forecast} selectedDate={selectedDate} />
       )}
 
       {/* Comparison by day*/}
