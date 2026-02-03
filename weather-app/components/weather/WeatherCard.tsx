@@ -50,6 +50,7 @@ export default function WeatherCard({ weather, forecast }: WeatherCardProps) {
           visibility={displayData.visibility}
           feelsLike={displayData.main.feels_like}
           forecast={forecast?.list}
+          selectedDate={selectedDate}
         />
       </div>
 

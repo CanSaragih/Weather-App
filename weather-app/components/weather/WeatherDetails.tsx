@@ -10,6 +10,7 @@ interface WeatherDetailsProps {
   visibility: number;
   feelsLike: number;
   forecast?: ForecastItem[];
+  selectedDate?: Date;
 }
 
 export default function WeatherDetails({
@@ -19,6 +20,7 @@ export default function WeatherDetails({
   visibility,
   feelsLike,
   forecast,
+  selectedDate,
 }: WeatherDetailsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 ">
@@ -32,7 +34,7 @@ export default function WeatherDetails({
 
       {/* Comparison by day*/}
       {forecast && forecast.length > 0 && (
-        <ComparisionCard forecast={forecast} />
+        <ComparisionCard forecast={forecast} selectedDate={selectedDate} />
       )}
     </div>
   );

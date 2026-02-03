@@ -1,8 +1,9 @@
 import { ForecastItem } from "@/lib/types/weather";
-import { format, subDays, startOfDay, isSameDay } from "date-fns";
+import { format, addDays, startOfDay, isSameDay } from "date-fns";
 
 interface ComparisonCardProps {
   forecast: ForecastItem[];
+  selectedDate?: Date;
 }
 
 interface DayComparison {
@@ -12,7 +13,10 @@ interface DayComparison {
   temp_max: number;
 }
 
-export default function ComparisonCard({ forecast }: ComparisonCardProps) {
+export default function ComparisonCard({
+  forecast,
+  selectedDate = new Date(),
+}: ComparisonCardProps) {
   // Group forecast by date
   const dailyForecast = forecast.reduce((acc: DayComparison[], item) => {
     const date = startOfDay(new Date(item.dt * 1000));
@@ -33,23 +37,61 @@ export default function ComparisonCard({ forecast }: ComparisonCardProps) {
     return acc;
   }, []);
 
-  // Tentukan Today, Yesterday, Tomorrow
-  const today = startOfDay(new Date());
-  const yesterday = subDays(today, 1);
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  // Cari index dari selected date
+  const selectedIndex = dailyForecast.findIndex((day) =>
+    isSameDay(day.date, startOfDay(selectedDate)),
+  );
 
-  // Assign labels
-  const comparisonDays = dailyForecast.slice(0, 3).map((day) => {
-    if (isSameDay(day.date, today)) {
-      return { ...day, label: "Today" };
-    } else if (isSameDay(day.date, yesterday)) {
-      return { ...day, label: "Yesterday" };
-    } else if (isSameDay(day.date, tomorrow)) {
-      return { ...day, label: "Tomorrow" };
-    }
-    return { ...day, label: format(day.date, "EEEE") };
-  });
+  // Ambil 3 hari: selected date sebagai center, yesterday, tomorrow
+  const yesterday = addDays(selectedDate, -1);
+  const tomorrow = addDays(selectedDate, 1);
+
+  // Filter dan sort berdasarkan selected date
+  let comparisonDays: DayComparison[] = [];
+
+  // Cari yesterday
+  const yesterdayData = dailyForecast.find((day) =>
+    isSameDay(day.date, yesterday),
+  );
+  if (yesterdayData) {
+    comparisonDays.push({ ...yesterdayData, label: "Yesterday" });
+  }
+
+  // Cari selected date (Today)
+  const todayData = dailyForecast.find((day) =>
+    isSameDay(day.date, startOfDay(selectedDate)),
+  );
+  if (todayData) {
+    comparisonDays.push({ ...todayData, label: "Today" });
+  }
+
+  // Cari tomorrow
+  const tomorrowData = dailyForecast.find((day) =>
+    isSameDay(day.date, tomorrow),
+  );
+  if (tomorrowData) {
+    comparisonDays.push({ ...tomorrowData, label: "Tomorrow" });
+  }
+
+  // Jika tidak ada cukup data, ambil 3 hari berturut-turut dari selected
+  if (comparisonDays.length < 3 && selectedIndex >= 0) {
+    comparisonDays = dailyForecast
+      .slice(selectedIndex, selectedIndex + 3)
+      .map((day, idx) => {
+        if (idx === 0) return { ...day, label: "Today" };
+        if (idx === 1) return { ...day, label: "Tomorrow" };
+        return { ...day, label: format(day.date, "EEEE") };
+      });
+  }
+
+  // Fallback: ambil 3 hari pertama
+  if (comparisonDays.length === 0) {
+    comparisonDays = dailyForecast.slice(0, 3).map((day, idx) => {
+      if (idx === 0) return { ...day, label: "Today" };
+      if (idx === 1) return { ...day, label: "Tomorrow" };
+      return { ...day, label: format(day.date, "EEEE") };
+    });
+  }
 
   // Calculate global min/max for progress bar
   const allTemps = comparisonDays.flatMap((d) => [d.temp_max, d.temp_min]);
@@ -61,7 +103,6 @@ export default function ComparisonCard({ forecast }: ComparisonCardProps) {
   const getInsight = () => {
     if (comparisonDays.length < 2) return "Not enough data for comparison.";
 
-    // Ambil 2 hari pertama dari forecast
     const day1 = comparisonDays[0];
     const day2 = comparisonDays[1];
 
@@ -92,7 +133,7 @@ export default function ComparisonCard({ forecast }: ComparisonCardProps) {
           const widthPercent = (tempRange / globalRange) * 100;
 
           return (
-            <div key={day.date.toISOString()} className="space-y-4 ">
+            <div key={day.date.toISOString()} className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-base font-medium text-zinc-800 dark:text-zinc-300">
                   {day.label}
@@ -122,7 +163,7 @@ export default function ComparisonCard({ forecast }: ComparisonCardProps) {
         })}
 
         {/* Insight */}
-        <div className="pt-4  border-gray-200 dark:border-gray-700">
+        <div className="pt-4 border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-500 dark:text-gray-300/90">
             {getInsight()}
           </p>
