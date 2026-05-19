@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import ModalSearch from "./ui/ModalSearch";
 import { City, ForecastData, WeatherData } from "@/lib/types/weather";
 import { WeatherAPI } from "@/lib/api/weather";
+import { useWeather } from "@/contexts/WeatherContext";
 
 interface SearchBarProps {
   onWeatherUpdate: (weather: WeatherData | null) => void;
@@ -21,17 +22,17 @@ export default function SearchBar({
   onLoadingChange,
 }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const { isSearchOpen, setIsSearchOpen } = useWeather();
 
   useEffect(() => {
     const handleKeysPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setModalOpen(true);
+        setIsSearchOpen(true);
       }
 
       if (e.key === "Escape") {
-        setModalOpen(false);
+        setIsSearchOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeysPress);
@@ -41,13 +42,13 @@ export default function SearchBar({
   }, []);
 
   useEffect(() => {
-    if (modalOpen) {
+    if (isSearchOpen) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-  }, [modalOpen]);
+  }, [isSearchOpen]);
 
   const handleCitySelect = async (city: City) => {
-    setModalOpen(false);
+    setIsSearchOpen(false);
     onLoadingChange(true);
     try {
       const [weatherData, forecastData] = await Promise.all([
@@ -66,7 +67,7 @@ export default function SearchBar({
   };
 
   const handleCurrentLocation = async (lat: number, lon: number) => {
-    setModalOpen(false);
+    setIsSearchOpen(false);
     onLoadingChange(true);
     try {
       const [weatherData, forecastData] = await Promise.all([
@@ -89,7 +90,7 @@ export default function SearchBar({
       <div className="flex items-center gap-4 justify-end max-w-7xl ml-auto">
         <div
           className="relative max-w-md w-full cursor-pointer"
-          onClick={() => setModalOpen(true)}
+          onClick={() => setIsSearchOpen(true)}
         >
           <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
           <Kbd className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -106,8 +107,8 @@ export default function SearchBar({
 
       {/* Modal Search Component */}
       <ModalSearch
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
+        modalOpen={isSearchOpen}
+        setModalOpen={setIsSearchOpen}
         inputRef={inputRef}
         onCitySelect={handleCitySelect}
         onCurrentLocation={handleCurrentLocation}

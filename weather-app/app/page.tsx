@@ -10,7 +10,9 @@ export default function Home() {
 
   return (
     <section className="min-h-screen">
-      {!isLoading && !weather && <SpotlightBackground />}
+      <div className="navbar-hidden">
+        {!isLoading && !weather && <SpotlightBackground />}
+      </div>
 
       {!isLoading && weather && (
         <div className="min-h-screen py-25 md:py-25 md:px-10 xl:py-25 xl:px-20 bg-white dark:bg-dark-mode ">

@@ -118,7 +118,7 @@ export default function TemperaturesCard({
             <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
               <stop
                 offset="5%"
-                stopColor="rgb(59, 130, 800)"
+                stopColor="rgb(59, 130, 246)"
                 stopOpacity={0.8}
               />
               <stop

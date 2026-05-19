@@ -1,7 +1,13 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Spotlight } from "./ui/spotlight";
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { useWeather } from "@/contexts/WeatherContext";
 
 export default function SpotlightBackground() {
+  const { setIsSearchOpen } = useWeather();
+
   return (
     <div className="fixed inset-0 w-full h-screen overflow-hidden bg-black/96 antialiased flex items-center justify-center">
       <div
@@ -27,6 +33,17 @@ export default function SpotlightBackground() {
           around the world. Simply search for your location and stay informed
           about current conditions and upcoming weather patterns.
         </p>
+
+        <div className="flex justify-center mt-6">
+          <HoverBorderGradient
+            containerClassName="rounded-full"
+            as="button"
+            className="cursor-pointer"
+            onClick={() => setIsSearchOpen(true)}
+          >
+            Get Started
+          </HoverBorderGradient>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/components/layout/Navbar";
@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+});
+
 export const metadata: Metadata = {
   title: "Weatherly - Simple Weather App",
   description:
@@ -28,9 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           enableSystem

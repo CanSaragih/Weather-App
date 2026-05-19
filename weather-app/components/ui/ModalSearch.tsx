@@ -131,55 +131,49 @@ export default function ModalSearch({
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogContent className="flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Search City</DialogTitle>
-        </DialogHeader>
-
-        {/* Current Location Button */}
-        <CurrentLocationButton
-          handleCurrentLocation={handleCurrentLocation}
-          isGettingLocation={isGettingLocation}
-        />
-
-        {/* location error */}
-        {locationError && (
-          <div className="text-center py-2">
-            <Kbd className="text-xs text-gray-600 bg-gray-800/10 dark:bg-gray-500/20">
-              {locationError}
-            </Kbd>
+        <div className="space-y-6">
+          <div className="mt-6">
+            <CurrentLocationButton
+              handleCurrentLocation={handleCurrentLocation}
+              isGettingLocation={isGettingLocation}
+            />
           </div>
-        )}
 
-        {/* Divider */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
-          </div>
+          {/* location error */}
+          {locationError && (
+            <div className="text-center py-2">
+              <Kbd className="text-xs text-zinc-600 bg-zinc-800/10 dark:bg-zinc-500/20">
+                {locationError}
+              </Kbd>
+            </div>
+          )}
+
+          {/* Divider */}
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white dark:bg-gray-900 px-2 text-gray-500 dark:text-gray-400">
+            <span className=" text-zinc-500 dark:text-zinc-400">
               or search city
             </span>
           </div>
-        </div>
 
-        {/* Search Input */}
-        <div className="relative">
-          <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <Input
-            ref={inputRef}
-            type="search"
-            placeholder="Search for a city..."
-            className="pl-10 w-full"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          {/* Search Input */}
+          <div className="relative">
+            <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+            <Input
+              ref={inputRef}
+              type="search"
+              placeholder="Search for a city..."
+              className="pl-10 py-5 w-full"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
         </div>
 
         {/* Search Results */}
         <div className="flex-1 overflow-y-auto">
           {!query && !isLoading && results.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center py-8">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
                 Start typing to search for a city
               </p>
             </div>
@@ -189,7 +183,7 @@ export default function ModalSearch({
           {error && !locationError && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center py-8">
-                <Kbd className="text-sm text-red-600 bg-red-800/10 dark:text-red-500 dark:bg-red-500/20">
+                <Kbd className="text-sm text-red-600 dark:text-red-500/80d">
                   {error}
                 </Kbd>
               </div>
@@ -213,15 +207,15 @@ export default function ModalSearch({
           {isLoading && results.length === 0 && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center py-8">
-                <Spinner className="w-8 h-8 text-gray-700 dark:text-gray-400 animate-spin mx-auto mb-2" />
+                <Spinner className="w-8 h-8 text-zinc-700 dark:text-zinc-400 animate-spin mx-auto mb-2" />
               </div>
             </div>
           )}
         </div>
 
         {/* Footer Info */}
-        <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+        <div className="pt-3 border-t border-zinc-200/70 dark:border-zinc-800">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
             {results.length > 0 && `${results.length} cities found`}
             {query &&
               results.length === 0 &&

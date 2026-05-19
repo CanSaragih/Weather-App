@@ -7,9 +7,11 @@ interface WeatherContextType {
   weather: WeatherData | null;
   forecast: ForecastData | null;
   isLoading: boolean;
+  isSearchOpen: boolean;
   setWeather: (weather: WeatherData | null) => void;
   setForecast: (forecast: ForecastData | null) => void;
   setIsLoading: (loading: boolean) => void;
+  setIsSearchOpen: (open: boolean) => void;
 }
 
 const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
@@ -18,6 +20,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <WeatherContext.Provider
@@ -25,9 +28,11 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
         weather,
         forecast,
         isLoading,
+        isSearchOpen,
         setWeather,
         setForecast,
         setIsLoading,
+        setIsSearchOpen,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 @theme inline {
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 }
@@ -71,10 +71,10 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 
-  --dark-mode: #1f1f1f;
-  --card-dark-mode: #222222;
-  --border-card-dark-mode: #2a2a2a;
-  --hover-card-dark-mode: #272727;
+  --dark-mode: #171717;
+  --card-dark-mode: #1b1c1c;
+  --border-card-dark-mode: #262828;
+  --hover-card-dark-mode: #252727;
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -150,7 +150,8 @@
   }
 }
 
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

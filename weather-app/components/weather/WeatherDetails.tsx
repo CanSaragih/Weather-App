@@ -15,11 +15,6 @@ interface WeatherDetailsProps {
 }
 
 export default function WeatherDetails({
-  humidity,
-  windSpeed,
-  pressure,
-  visibility,
-  feelsLike,
   forecast,
   selectedDate,
 }: WeatherDetailsProps) {

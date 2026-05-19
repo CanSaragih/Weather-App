@@ -11,7 +11,10 @@ import Image from "next/image";
 
 export default function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
-  const { setWeather, setForecast, setIsLoading } = useWeather();
+  const { weather, isLoading, setWeather, setForecast, setIsLoading } =
+    useWeather();
+
+  const showNavbar = weather || isLoading;
 
   const handleReset = () => {
     setWeather(null);
@@ -21,7 +24,11 @@ export default function Navbar({ className }: { className?: string }) {
 
   return (
     <div
-      className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
+      className={cn(
+        "fixed top-10 inset-x-0 max-w-2xl mx-auto z-50",
+        showNavbar ? "opacity-100" : "opacity-0 pointer-events-none",
+        className,
+      )}
     >
       <Menu setActive={setActive}>
         <Button
