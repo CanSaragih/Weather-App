@@ -8,7 +8,7 @@ interface CityInformationProps {
 
 export default function CityInformation({ weather }: CityInformationProps) {
   return (
-    <div className="px-6">
+    <>
       <div className="flex items-center gap-2 mb-4">
         <MdOutlineLocationOn
           size={26}
@@ -52,6 +52,6 @@ export default function CityInformation({ weather }: CityInformationProps) {
           </span>
         </div>
       </div>
-    </div>
+    </>
   );
 }

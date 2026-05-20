@@ -7,6 +7,7 @@ import { useState } from "react";
 import CityInformation from "./CityInformation";
 import WeatherIconSituation from "./WeatherIconSituation";
 import ForecastCard from "./detail/ForecastCard";
+import HourlyForecastChart from "./HourlyForecastChart";
 
 interface WeatherCardProps {
   weather: WeatherData;
@@ -55,6 +56,12 @@ export default function WeatherCard({ weather, forecast }: WeatherCardProps) {
       </div>
 
       {/* Details */}
+
+      {forecast && (
+        <div className="mt-20">
+          <HourlyForecastChart forecast={forecast} />
+        </div>
+      )}
       {/* <div className="p-6 mt-10">
         <WeatherDetails
           humidity={displayData.main.humidity}

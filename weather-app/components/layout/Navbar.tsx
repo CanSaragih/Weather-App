@@ -45,13 +45,6 @@ export default function Navbar({ className }: { className?: string }) {
           onLoadingChange={setIsLoading}
         />
         <AnimatedThemeToggler className="border-gray-200 dark:border-gray-700/70" />
-        {/* <Button
-          variant="ghost"
-          size="icon-lg"
-          className="cursor-pointer border border-gray-200 dark:border-gray-700/70 rounded-md p-2"
-        >
-          <RiMenuUnfold4Line className="hover:text-zinc-700 dark:hover:text-zinc-200 cursor-pointer transition-colors duration-300" />
-        </Button> */}
       </Menu>
     </div>
   );
