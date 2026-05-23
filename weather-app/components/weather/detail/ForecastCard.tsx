@@ -53,7 +53,7 @@ export default function ForecastCard({
   const displayForecast = dailyForecast.slice(0, 6);
 
   return (
-    <div className="rounded-[1.5rem] border-2 border-slate-100 bg-white dark:border-border-card-dark-mode dark:bg-[#1C1C1E] p-4">
+    <div className="rounded-[1.5rem] border-2 border-slate-200 bg-white dark:border-border-card-dark-mode dark:bg-[#1C1C1E] p-4">
       <div className="space-y-4">
         {displayForecast.map((day) => {
           const dayLabel = getDayLabel(day.date);

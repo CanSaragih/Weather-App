@@ -96,11 +96,24 @@ export default function HourlyForecastChart({
 
   const [currentTime] = useState(() => Date.now());
 
+  const closestNowIndex = () => {
+    let closesIndex = 0;
+    let minDiff = Infinity;
+    forecast.list.forEach((item, i) => {
+      const diff = Math.abs(item.dt * 1000 - currentTime);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closesIndex = i;
+      }
+    });
+    return closesIndex;
+  };
+
   // Buat data lengkap dari semua forecast (max 40 item = 5 hari)
-  const allData = forecast.list.map((item) => {
+  const allData = forecast.list.map((item, index) => {
     const date = new Date(item.dt * 1000);
     const hours = date.getHours().toString().padStart(2, "0");
-    const isNow = Math.abs(date.getTime() - currentTime) < 1.5 * 60 * 60 * 1000; // dalam 1.5 jam dari sekarang
+    const isNow = index === closestNowIndex();
     return {
       time: `${hours}:00`,
       temp: Math.round(item.main.temp),

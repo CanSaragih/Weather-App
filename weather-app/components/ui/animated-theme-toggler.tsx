@@ -98,12 +98,14 @@ export const AnimatedThemeToggler = ({
   }, []);
 
   return (
-    <div className="flex items-center border border-gray-200 dark:border-gray-700/70 rounded-md ">
+    <div
+      className="flex items-center border border-gray-200 dark:border-gray-700/70 rounded-md "
+      onClick={toggleTheme}
+    >
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
             ref={buttonRef}
-            onClick={toggleTheme}
             variant="ghost"
             size="icon"
             className={cn("cursor-pointer", className)}
