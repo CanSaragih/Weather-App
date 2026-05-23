@@ -3,10 +3,15 @@
 import { cn } from "@/lib/utils";
 import { Spotlight } from "./ui/spotlight";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
-import { useWeather } from "@/contexts/WeatherContext";
+
+import { useRouter } from "next/navigation";
 
 export default function SpotlightBackground() {
-  const { setIsSearchOpen } = useWeather();
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    router.push("/favorites");
+  };
 
   return (
     <div className="fixed inset-0 w-full h-screen overflow-hidden bg-black/96 antialiased flex items-center justify-center">
@@ -39,7 +44,7 @@ export default function SpotlightBackground() {
             containerClassName="rounded-full"
             as="button"
             className="cursor-pointer"
-            onClick={() => setIsSearchOpen(true)}
+            onClick={handleGetStarted}
           >
             Get Started
           </HoverBorderGradient>

@@ -12,15 +12,21 @@ import {
 } from "@/components/ui/resizable-navbar";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import SearchBar from "../SearchBar";
 import { useWeather } from "@/contexts/WeatherContext";
+import { Button } from "../ui/button";
 
 export function NavbarDemo() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const navItems = [
     {
       name: "Dashboard",
-      link: "/",
+      link: "/dashboard",
     },
     {
       name: "Favorites",
@@ -34,6 +40,14 @@ export function NavbarDemo() {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { setWeather, setForecast, setIsLoading } = useWeather();
+
+  if (pathname === "/" || pathname === "/login") {
+    return null; // Jangan render Navbar di halaman utama
+  }
+
+  const handleLoginClick = () => {
+    router.push("/login");
+  };
 
   return (
     <div className="relative w-full">
@@ -49,7 +63,13 @@ export function NavbarDemo() {
               onLoadingChange={setIsLoading}
             />
             <AnimatedThemeToggler className="border-gray-200 dark:border-gray-700/70" />
-            <NavbarButton variant="dark">Sign In</NavbarButton>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={handleLoginClick}
+            >
+              Sign In
+            </Button>
           </div>
         </NavBody>
 

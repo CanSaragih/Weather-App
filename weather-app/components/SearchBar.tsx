@@ -4,11 +4,12 @@ import { Input } from "./ui/input";
 import { IoSearch } from "react-icons/io5";
 import { Kbd } from "./ui/kbd";
 import { MdKeyboardCommandKey } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ModalSearch from "./ui/ModalSearch";
 import { City, ForecastData, WeatherData } from "@/lib/types/weather";
 import { WeatherAPI } from "@/lib/api/weather";
 import { useWeather } from "@/contexts/WeatherContext";
+import { useRouter } from "next/navigation";
 
 interface SearchBarProps {
   onWeatherUpdate: (weather: WeatherData | null) => void;
@@ -23,6 +24,7 @@ export default function SearchBar({
 }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { isSearchOpen, setIsSearchOpen } = useWeather();
+  const router = useRouter();
 
   useEffect(() => {
     const handleKeysPress = (e: KeyboardEvent) => {
@@ -50,6 +52,8 @@ export default function SearchBar({
   const handleCitySelect = async (city: City) => {
     setIsSearchOpen(false);
     onLoadingChange(true);
+
+    router.push("/dashboard");
     try {
       const [weatherData, forecastData] = await Promise.all([
         WeatherAPI.getWeatherByCoords(city.coord.lat, city.coord.lon),
@@ -69,6 +73,8 @@ export default function SearchBar({
   const handleCurrentLocation = async (lat: number, lon: number) => {
     setIsSearchOpen(false);
     onLoadingChange(true);
+
+    router.push("/dashboard");
     try {
       const [weatherData, forecastData] = await Promise.all([
         WeatherAPI.getWeatherByCoords(lat, lon),

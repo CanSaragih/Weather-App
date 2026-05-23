@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import Navbar from "@/components/layout/Navbar";
 import { WeatherProvider } from "@/contexts/WeatherContext";
 import { NavbarDemo } from "@/components/layout/NavbarDemo";
 
@@ -43,7 +42,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <WeatherProvider>
-            {/* <Navbar /> */}
             <NavbarDemo />
             {children}
           </WeatherProvider>
