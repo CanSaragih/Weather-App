@@ -11,6 +11,8 @@ import { WeatherAPI } from "@/lib/api/weather";
 import { WeatherData } from "@/lib/types/weather";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
+import CityFavoriteCard from "@/components/favorite/CItyFavoriteCard";
+import { EmptyState } from "@/components/favorite/EmptyState";
 
 interface FavoriteWithWeather {
   id: string;
@@ -125,11 +127,17 @@ export default function FavoritesPage() {
 
       {/* Belum login */}
       {!user ? (
-        <div className="mt-20 flex flex-col items-center text-center">
-          <p className="text-gray-500 mb-4">
-            You need to log in to save favorite locations.
-          </p>
-        </div>
+        <EmptyState
+          icon="IconMapPin"
+          label="Saved locations"
+          title="Sign in to save cities"
+          description="Keep track of weather across your favorite places. Sign in to get started."
+          action={{
+            label: "Sign in",
+            variant: "outline",
+            onClick: () => router.push("/login?redirectTo=/favorites"),
+          }}
+        />
       ) : isFetching ? (
         <div className="mt-20 flex justify-center items-center">
           <Loader2 className="w-10 h-10 animate-spin text-gray-400" />
@@ -137,67 +145,22 @@ export default function FavoritesPage() {
       ) : (
         <div className="mt-12 px-4 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {favorites.length === 0 ? (
-            <p className="text-gray-500 w-full col-span-4 mt-10">
-              You haven &apos;t added any favorite locations yet.
-            </p>
+            <EmptyState
+              icon="IconMapPin"
+              label="No locations yet"
+              title="Add your first city"
+              description="Search for a city and save it here to see its weather at a glance."
+              action={{
+                label: "+ Add location",
+                variant: "outline",
+                onClick: () => setShowModal(true),
+              }}
+            />
           ) : (
-            favorites.map((location) => (
-              <div
-                key={location.id}
-                className="bg-gray-100 dark:bg-card-dark-mode hover:bg-gray-50 dark:hover:bg-hover-card-dark-mode border border-slate-200 dark:border-border-card-dark-mode rounded-lg p-6 space-y-4 cursor-pointer transition-colors duration-500 relative group"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex-col items-start w-3/4 overflow-hidden">
-                    <h2 className="text-2xl font-medium text-zinc-800 dark:text-zinc-200 truncate">
-                      {location.city}
-                    </h2>
-                    <p className="text-zinc-600 dark:text-zinc-400 mt-1 uppercase tracking-wide truncate">
-                      {location.country}
-                    </p>
-                  </div>
-                  <Image
-                    src={`http://openweathermap.org/img/wn/${location.weatherData.weather[0].icon}@2x.png`}
-                    alt="Weather Icon"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-
-                <div className="flex items-center justify-center font-semibold text-5xl py-4 text-zinc-800 dark:text-zinc-300">
-                  {Math.round(location.weatherData.main.temp)}°
-                </div>
-                <p className="text-center text-sm capitalize text-gray-500">
-                  {location.weatherData.weather[0].description}
-                </p>
-
-                <div className="flex flex-row gap-10 items-center justify-between px-2 pt-2">
-                  <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                    <Wind size={18} />
-                    <span className="text-base">
-                      {Math.round(location.weatherData.wind.speed * 3.6)} km/h
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                    <Droplet size={18} />
-                    <span className="text-base">
-                      {location.weatherData.main.humidity}%
-                    </span>
-                  </div>
-                </div>
-
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(location.id);
-                  }}
-                >
-                  Remove
-                </Button>
-              </div>
-            ))
+            <CityFavoriteCard
+              favorites={favorites}
+              handleDelete={handleDelete}
+            />
           )}
         </div>
       )}

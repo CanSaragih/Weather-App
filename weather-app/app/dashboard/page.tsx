@@ -3,6 +3,7 @@
 import { useWeather } from "@/contexts/WeatherContext";
 import WeatherCard from "@/components/weather/WeatherCard";
 import WeatherSkeleton from "@/components/weather/WeatherSkeleton";
+import EmptyState from "@/components/dashboard/EmptyState";
 
 export default function DashboardPage() {
   const { weather, forecast, isLoading } = useWeather();
@@ -13,14 +14,7 @@ export default function DashboardPage() {
         {isLoading && <WeatherSkeleton />}
 
         {/* Jika belum ada data dan sedang tidak loading, Anda dapat mengarahkan opsi kosong */}
-        {!isLoading && !weather && (
-          <div className="text-center mt-20">
-            <h1 className="text-3xl font-bold">Dashboard</h1>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">
-              Silakan cari kota pada Navbar untuk melihat detail cuaca di sini.
-            </p>
-          </div>
-        )}
+        {!isLoading && !weather && <EmptyState />}
 
         {/* Tampilkan data cuaca setelah berhasil di get */}
         {!isLoading && weather && (
