@@ -18,10 +18,15 @@ import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import SearchBar from "../SearchBar";
 import { useWeather } from "@/contexts/WeatherContext";
 import { Button } from "../ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/useLogout";
+import { Spinner } from "../ui/spinner";
 
 export function NavbarDemo() {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
+  const { logout, isLoading } = useLogout();
 
   const navItems = [
     {
@@ -66,9 +71,9 @@ export function NavbarDemo() {
             <Button
               variant="outline"
               className="cursor-pointer"
-              onClick={handleLoginClick}
+              onClick={user ? logout : handleLoginClick}
             >
-              Sign In
+              {user ? isLoading ? <Spinner /> : "Logout" : "Sign In"}
             </Button>
           </div>
         </NavBody>
@@ -102,7 +107,7 @@ export function NavbarDemo() {
                 variant="primary"
                 className="w-full"
               >
-                Sign In
+                {user ? isLoading ? <Spinner /> : "Logout" : "Sign In"}
               </NavbarButton>
             </div>
           </MobileNavMenu>

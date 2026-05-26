@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "./ui/input";
+import { Input } from "./ui/input2";
 import { IoSearch } from "react-icons/io5";
 import { Kbd } from "./ui/kbd";
 import { MdKeyboardCommandKey } from "react-icons/md";
@@ -115,7 +115,6 @@ export default function SearchBar({
       <ModalSearch
         modalOpen={isSearchOpen}
         setModalOpen={setIsSearchOpen}
-        inputRef={inputRef}
         onCitySelect={handleCitySelect}
         onCurrentLocation={handleCurrentLocation}
       />

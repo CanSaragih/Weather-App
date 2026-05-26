@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog";
+import { Dialog, DialogContent } from "./dialog";
 import CurrentLocationButton from "../weather/ButtonCurrentLocation";
 import SearchResultItem from "./SearchResultItem";
 import { WeatherAPI } from "@/lib/api/weather";
@@ -8,12 +8,11 @@ import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { City } from "@/lib/types/weather";
 import { Spinner } from "./spinner";
-import { Input } from "./input";
+import { Input } from "./input2";
 import { Kbd } from "./kbd";
 interface ModalSearchProps {
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
-  inputRef: React.RefObject<HTMLInputElement | null>;
   onCitySelect?: (city: City) => void;
   onCurrentLocation?: (lat: number, lon: number) => void;
 }
@@ -21,7 +20,6 @@ interface ModalSearchProps {
 export default function ModalSearch({
   modalOpen,
   setModalOpen,
-  inputRef,
   onCitySelect,
   onCurrentLocation,
 }: ModalSearchProps) {
@@ -159,7 +157,6 @@ export default function ModalSearch({
           <div className="relative">
             <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
             <Input
-              ref={inputRef}
               type="search"
               placeholder="Search for a city..."
               className="pl-10 py-5 w-full"
