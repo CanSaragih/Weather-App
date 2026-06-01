@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { MdOutlineAddLocationAlt } from "react-icons/md";
@@ -14,6 +14,9 @@ import CityFavoriteCard from "@/components/favorite/CItyFavoriteCard";
 import { EmptyState } from "@/components/favorite/EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonFavoriteCard from "@/components/favorite/SkeletonFavoriteCard";
+import ModalLogin from "@/components/ModalLogin";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
 interface FavoriteWithWeather {
   id: string;
@@ -23,12 +26,14 @@ interface FavoriteWithWeather {
 }
 
 export default function FavoritesPage() {
-  const router = useRouter();
+  const supabase = useMemo(() => createClient(), []);
+
   const { user, loading } = useAuth();
-  const supabase = createClient();
+
   const [showModal, setShowModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [favorites, setFavorites] = useState<FavoriteWithWeather[]>([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
   const fetchFavoritesAndWeather = useCallback(async () => {
     if (!user) return;
@@ -76,21 +81,30 @@ export default function FavoritesPage() {
 
   useEffect(() => {
     if (!loading) {
-      fetchFavoritesAndWeather();
+      if (user) {
+        fetchFavoritesAndWeather();
+      }
+      setShowLoginModal(!user);
     }
-  }, [loading, fetchFavoritesAndWeather]);
+  }, [loading, user, fetchFavoritesAndWeather]);
 
   const handleDelete = async (id: string) => {
+    const previous = favorites;
+    setFavorites((prev) => prev.filter((fav) => fav.id !== id));
+
     const { error } = await supabase.from("favorites").delete().eq("id", id);
-    if (!error) {
-      setFavorites((prev) => prev.filter((f) => f.id !== id));
+
+    if (error) {
+      setFavorites(previous);
+      toast.error("Failed to delete favorite. Please try again.");
+    } else {
+      toast.success("Favorite deleted successfully!");
     }
   };
 
   const handleAddLocationClick = () => {
-    console.log("user:", user, "loading:", loading);
     if (!user) {
-      router.push("/login?redirectTo=/favorites");
+      setShowLoginModal(true);
       return;
     }
     setShowModal(true);
@@ -99,8 +113,8 @@ export default function FavoritesPage() {
   // Loading state (tunggu auth selesai cek)
   if (loading) {
     return (
-      <div className="min-h-screen py-25 md:py-25 md:px-10 xl:py-35 xl:px-20 bg-white dark:bg-dark-mode">
-        <div className="flex items-center justify-between">
+      <div className="min-h-screen py-25 px-4 md:py-25 md:px-10 xl:py-35 xl:px-20 bg-white dark:bg-dark-mode">
+        {/* <div className="flex items-center justify-between">
           <div className="space-y-4">
             <Skeleton className="h-12 w-64 bg-gray-200 dark:bg-zinc-800" />
             <Skeleton className="h-5 w-80 bg-gray-200 dark:bg-zinc-800" />
@@ -108,67 +122,54 @@ export default function FavoritesPage() {
           <Skeleton className="h-10 w-36 rounded-md bg-gray-200 dark:bg-zinc-800" />
         </div>
 
-        <SkeletonFavoriteCard />
+        <SkeletonFavoriteCard /> */}
+        <div className="flex items-center justify-center">
+          <Spinner className="h-6 w-6 md:h-8 md:w-8  text-zinc-300" />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen py-25 md:py-25 md:px-10 xl:py-35 xl:px-20 bg-white dark:bg-dark-mode">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-5xl font-semibold text-gray-800 dark:text-gray-200">
-            Saved Locations
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-3">
-            Real-time cinematic weather data for your favorite locations.
-          </p>
+      {user && favorites.length > 0 && (
+        <div className="flex items-center justify-between px-4 md:px-0">
+          <div>
+            <h1 className="text-5xl font-semibold text-gray-800 dark:text-gray-200">
+              Saved Locations
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-3">
+              Real-time cinematic weather data for your favorite locations.
+            </p>
+          </div>
+          <Button
+            className="cursor-pointer"
+            onClick={handleAddLocationClick}
+            disabled={loading}
+          >
+            <MdOutlineAddLocationAlt size={20} />
+            <span className="hidden sm:inline-block ml-2">Add Location</span>
+          </Button>
         </div>
-        <Button
-          className="cursor-pointer"
-          onClick={handleAddLocationClick}
-          disabled={loading}
-        >
-          <MdOutlineAddLocationAlt size={20} />
-          <span className="hidden sm:inline-block ml-2">Add Location</span>
-        </Button>
-      </div>
+      )}
 
-      {/* Belum login */}
-      {!user ? (
+      {isFetching ? (
+        <SkeletonFavoriteCard />
+      ) : favorites.length === 0 ? (
         <EmptyState
           icon="IconMapPin"
-          label="Saved locations"
-          title="Sign in to save cities"
-          description="Keep track of weather across your favorite places. Sign in to get started."
+          label="No locations yet"
+          title="Add your first city"
+          description="Search for a city and save it here to see its weather at a glance."
           action={{
-            label: "Sign in",
+            label: "+ Add location",
             variant: "outline",
-            onClick: () => router.push("/login?redirectTo=/favorites"),
+            onClick: () => setShowModal(true),
           }}
         />
-      ) : isFetching ? (
-        <SkeletonFavoriteCard />
       ) : (
-        <div className="mt-12 px-4 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {favorites.length === 0 ? (
-            <EmptyState
-              icon="IconMapPin"
-              label="No locations yet"
-              title="Add your first city"
-              description="Search for a city and save it here to see its weather at a glance."
-              action={{
-                label: "+ Add location",
-                variant: "outline",
-                onClick: () => setShowModal(true),
-              }}
-            />
-          ) : (
-            <CityFavoriteCard
-              favorites={favorites}
-              handleDelete={handleDelete}
-            />
-          )}
+        <div className="px-4 mt-8 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <CityFavoriteCard favorites={favorites} handleDelete={handleDelete} />
         </div>
       )}
 
@@ -177,6 +178,14 @@ export default function FavoritesPage() {
           modalOpen={showModal}
           setModalOpen={setShowModal}
           onSuccess={fetchFavoritesAndWeather}
+        />
+      )}
+
+      {/* modal login  */}
+      {showLoginModal && (
+        <ModalLogin
+          modalOpen={showLoginModal}
+          setModalOpen={setShowLoginModal}
         />
       )}
     </div>

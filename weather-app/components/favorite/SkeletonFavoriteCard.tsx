@@ -5,7 +5,6 @@ import { Skeleton } from "../ui/skeleton";
 export default function SkeletonFavoriteCard() {
   return (
     <div className="mt-12 px-4 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {/* Membuat 4 Dummy Data Skeleton mirip dengan Grid Anda */}
       {[...Array(4)].map((_, i) => (
         <div
           key={i}

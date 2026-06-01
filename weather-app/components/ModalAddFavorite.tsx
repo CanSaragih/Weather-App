@@ -94,9 +94,13 @@ export default function ModalAddFavorite({
       });
 
       await promise;
+
       setQuery("");
-      setModalOpen(false);
       onSuccess();
+
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 700);
     } catch (error) {
       console.error("Error saving favorite:", error);
     } finally {
