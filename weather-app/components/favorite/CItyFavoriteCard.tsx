@@ -1,6 +1,7 @@
 import { Droplet, Wind } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { SlOptionsVertical } from "react-icons/sl";
 
 interface CityFavoriteCardProps {
   favorites: {
@@ -33,7 +34,7 @@ export default function CityFavoriteCard({
       {favorites.map((location) => (
         <div
           key={location.id}
-          className="bg-gray-100 dark:bg-card-dark-mode hover:bg-gray-50 dark:hover:bg-hover-card-dark-mode border border-slate-200 dark:border-border-card-dark-mode rounded-lg p-6 space-y-4 cursor-pointer transition-colors duration-500 relative group"
+          className="bg-gray-100 dark:bg-card-dark-mode hover:bg-gray-50 dark:hover:bg-hover-card-dark-mode border border-slate-200 dark:border-border-card-dark-mode rounded-lg p-6 space-y-4 transition-colors duration-500 relative group"
         >
           <div className="flex items-center justify-between">
             <div className="flex-col items-start w-3/4 overflow-hidden">
@@ -75,15 +76,15 @@ export default function CityFavoriteCard({
           </div>
 
           <Button
-            variant="destructive"
+            variant="ghost"
             size="sm"
-            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-2 right-2 transition-opacity text-zinc-600 dark:text-zinc-400 opacity-0 group-hover:opacity-100 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               handleDelete(location.id);
             }}
           >
-            Remove
+            <SlOptionsVertical />
           </Button>
         </div>
       ))}

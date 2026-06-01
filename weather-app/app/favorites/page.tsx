@@ -114,15 +114,6 @@ export default function FavoritesPage() {
   if (loading) {
     return (
       <div className="min-h-screen py-25 px-4 md:py-25 md:px-10 xl:py-35 xl:px-20 bg-white dark:bg-dark-mode">
-        {/* <div className="flex items-center justify-between">
-          <div className="space-y-4">
-            <Skeleton className="h-12 w-64 bg-gray-200 dark:bg-zinc-800" />
-            <Skeleton className="h-5 w-80 bg-gray-200 dark:bg-zinc-800" />
-          </div>
-          <Skeleton className="h-10 w-36 rounded-md bg-gray-200 dark:bg-zinc-800" />
-        </div>
-
-        <SkeletonFavoriteCard /> */}
         <div className="flex items-center justify-center">
           <Spinner className="h-6 w-6 md:h-8 md:w-8  text-zinc-300" />
         </div>
@@ -164,11 +155,17 @@ export default function FavoritesPage() {
           action={{
             label: "+ Add location",
             variant: "outline",
-            onClick: () => setShowModal(true),
+            onClick: () => {
+              if (!user) {
+                setShowLoginModal(true);
+              } else {
+                setShowModal(true);
+              }
+            },
           }}
         />
       ) : (
-        <div className="px-4 mt-8 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="px-4 mt-10 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <CityFavoriteCard favorites={favorites} handleDelete={handleDelete} />
         </div>
       )}
