@@ -4,15 +4,16 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { MdOutlineAddLocationAlt } from "react-icons/md";
-import { Droplet, Loader2, Wind } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import ModalAddFavorite from "@/components/ModalAddFavorite";
 import { createClient } from "@/lib/supabase/client";
 import { WeatherAPI } from "@/lib/api/weather";
 import { WeatherData } from "@/lib/types/weather";
-import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import CityFavoriteCard from "@/components/favorite/CItyFavoriteCard";
 import { EmptyState } from "@/components/favorite/EmptyState";
+import { Skeleton } from "@/components/ui/skeleton";
+import SkeletonFavoriteCard from "@/components/favorite/SkeletonFavoriteCard";
 
 interface FavoriteWithWeather {
   id: string;
@@ -23,14 +24,14 @@ interface FavoriteWithWeather {
 
 export default function FavoritesPage() {
   const router = useRouter();
-  const { user, loading } = useAuth(); // ← pakai ini saja untuk cek auth
+  const { user, loading } = useAuth();
   const supabase = createClient();
   const [showModal, setShowModal] = useState(false);
   const [favorites, setFavorites] = useState<FavoriteWithWeather[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   const fetchFavoritesAndWeather = useCallback(async () => {
-    if (!user) return; // ← guard, tidak fetch kalau belum login
+    if (!user) return;
 
     setIsFetching(true);
     try {
@@ -71,7 +72,7 @@ export default function FavoritesPage() {
     } finally {
       setIsFetching(false);
     }
-  }, [user, supabase]); // ← depend on user
+  }, [user, supabase]);
 
   useEffect(() => {
     if (!loading) {
@@ -98,8 +99,16 @@ export default function FavoritesPage() {
   // Loading state (tunggu auth selesai cek)
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Loader2 className="w-10 h-10 animate-spin text-gray-400" />
+      <div className="min-h-screen py-25 md:py-25 md:px-10 xl:py-35 xl:px-20 bg-white dark:bg-dark-mode">
+        <div className="flex items-center justify-between">
+          <div className="space-y-4">
+            <Skeleton className="h-12 w-64 bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-5 w-80 bg-gray-200 dark:bg-zinc-800" />
+          </div>
+          <Skeleton className="h-10 w-36 rounded-md bg-gray-200 dark:bg-zinc-800" />
+        </div>
+
+        <SkeletonFavoriteCard />
       </div>
     );
   }
@@ -139,9 +148,7 @@ export default function FavoritesPage() {
           }}
         />
       ) : isFetching ? (
-        <div className="mt-20 flex justify-center items-center">
-          <Loader2 className="w-10 h-10 animate-spin text-gray-400" />
-        </div>
+        <SkeletonFavoriteCard />
       ) : (
         <div className="mt-12 px-4 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {favorites.length === 0 ? (

@@ -10,6 +10,7 @@ import { City } from "@/lib/types/weather";
 import { Spinner } from "./spinner";
 import { Input } from "./input2";
 import { Kbd } from "./kbd";
+import { useCurrentLocation } from "@/hooks/useCurrentLocation";
 interface ModalSearchProps {
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
@@ -26,9 +27,14 @@ export default function ModalSearch({
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<City[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [error, setError] = useState("");
-  const [locationError, setLocationError] = useState("");
+
+  const {
+    isGettingLocation,
+    locationError,
+    fetchCurrentLocation,
+    resetLocationError,
+  } = useCurrentLocation();
 
   // Debounced search
   useEffect(() => {
@@ -56,7 +62,7 @@ export default function ModalSearch({
       } finally {
         setIsLoading(false);
       }
-    }, 500); // 500ms debounce
+    }, 500);
 
     return () => clearTimeout(delaySearch);
   }, [query]);
@@ -67,8 +73,7 @@ export default function ModalSearch({
       setQuery("");
       setResults([]);
       setError("");
-      setLocationError("");
-      setIsGettingLocation(false);
+      resetLocationError();
     }
   }, [modalOpen]);
 
@@ -78,52 +83,13 @@ export default function ModalSearch({
   };
 
   const handleCurrentLocation = async () => {
-    if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported by your browser.");
-      return;
-    }
-
-    setIsGettingLocation(true);
-    setLocationError("");
     setError("");
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setIsGettingLocation(false);
-        setModalOpen(false);
-        setTimeout(() => {
-          onCurrentLocation?.(latitude, longitude);
-        }, 100);
-      },
-      (error) => {
-        setIsGettingLocation(false);
-
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            setLocationError(
-              "Permission denied. Please allow location access.",
-            );
-            break;
-          case error.POSITION_UNAVAILABLE:
-            setLocationError("Location information is unavailable.");
-            break;
-          case error.TIMEOUT:
-            setLocationError("The request to get your location timed out.");
-            break;
-          default:
-            setLocationError(
-              "An unknown error occurred while fetching location.",
-            );
-            break;
-        }
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
-      },
-    );
+    fetchCurrentLocation((lat, lon) => {
+      setModalOpen(false);
+      setTimeout(() => {
+        onCurrentLocation?.(lat, lon);
+      }, 100);
+    });
   };
 
   return (

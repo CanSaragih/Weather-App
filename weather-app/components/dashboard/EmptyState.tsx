@@ -2,8 +2,41 @@ import { Compass, Search } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { TbCurrentLocationFilled } from "react-icons/tb";
+import { useWeather } from "@/contexts/WeatherContext";
+import { useCurrentLocation } from "@/hooks/useCurrentLocation";
+import { WeatherAPI } from "@/lib/api/weather";
 
 export default function EmptyState() {
+  const { setIsSearchOpen, setWeather, setForecast, setIsLoading, isLoading } =
+    useWeather();
+
+  const {
+    isGettingLocation,
+    locationError,
+    fetchCurrentLocation,
+    resetLocationError,
+  } = useCurrentLocation();
+
+  const handleCurrentLocation = () => {
+    fetchCurrentLocation(async (lat, lon) => {
+      try {
+        setIsLoading(true);
+
+        const [weatherData, forecastData] = await Promise.all([
+          WeatherAPI.getWeatherByCoords(lat, lon),
+          WeatherAPI.getForecastByCoords(lat, lon),
+        ]);
+
+        setWeather(weatherData);
+        setForecast(forecastData);
+      } catch (error) {
+        console.error("Error fetching current location weather data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    });
+  };
+
   return (
     <div className="grow flex flex-col items-center justify-center pt-18 px-6">
       <div className="max-w-4xl w-full flex flex-col items-center text-center space-y-12">
@@ -42,7 +75,13 @@ export default function EmptyState() {
 
         {/* Central Search Action */}
         <div className="w-full max-w-xl group">
-          <div className="relative flex items-center px-6 py-5 rounded-full border border-gray-200 dark:border-white/20 hover:border-[#a5e7ff]/50 transition-all duration-500 shadow-xl bg-white/50 dark:bg-[#141414]/60 backdrop-blur-[20px]">
+          <div
+            className="relative flex items-center px-6 py-5 rounded-full border border-gray-200 dark:border-white/20 hover:border-[#a5e7ff]/50 transition-all duration-500 shadow-xl bg-white/50 dark:bg-[#141414]/60 backdrop-blur-[20px]"
+            onClick={(e) => {
+              e.preventDefault();
+              setIsSearchOpen(true);
+            }}
+          >
             <Search className="text-gray-400 dark:text-[#bbc9cf] group-focus-within:text-[#a5e7ff] transition-colors w-6 h-6" />
             <input
               className="grow bg-transparent border-none focus:ring-0 text-gray-900 dark:text-[#e5e2e1] placeholder-gray-500 dark:placeholder-[#bbc9cf]/50 ml-4 outline-none font-medium"
@@ -50,7 +89,7 @@ export default function EmptyState() {
               type="text"
             />
             <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-lg border border-gray-200 dark:border-white/5 bg-gray-100 dark:bg-white/5">
-              <span className="text-[10px] font-bold text-gray-500 dark:text-[#bbc9cf]">
+              <span className="text -[10px] font-bold text-gray-500 dark:text-[#bbc9cf]">
                 ⌘
               </span>
               <span className="text-[10px] font-bold text-gray-500 dark:text-[#bbc9cf]">
@@ -63,6 +102,8 @@ export default function EmptyState() {
           <Button
             variant="outline"
             className="mt-6 cursor-pointer rounded-full "
+            onClick={handleCurrentLocation}
+            disabled={isGettingLocation || isLoading}
           >
             <div className="flex items-center gap-2 text-sm font-medium text-neutral-800 dark:text-neutral-300">
               <TbCurrentLocationFilled />

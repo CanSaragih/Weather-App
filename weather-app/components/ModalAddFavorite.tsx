@@ -11,6 +11,7 @@ import { Loader2, LocateFixedIcon } from "lucide-react";
 import { WeatherAPI } from "@/lib/api/weather";
 import { City } from "@/lib/types/weather";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface ModalAddFavoriteProps {
   modalOpen: boolean;
@@ -64,28 +65,40 @@ export default function ModalAddFavorite({
         return;
       }
 
-      const { error } = await supabase.from("favorites").insert({
-        user_id: user.id,
-        city_name: city.name,
-        country: city.country,
-        lat: city.coord.lat,
-        lon: city.coord.lon,
-      });
+      const insertFavoritePromise = async () => {
+        const { error } = await supabase.from("favorites").insert({
+          user_id: user.id,
+          city_name: city.name,
+          country: city.country,
+          lat: city.coord.lat,
+          lon: city.coord.lon,
+        });
 
-      if (error) {
-        if (error.code === "23505") {
-          alert("City already in favorites!");
-        } else {
+        if (error) {
           throw error;
         }
-      } else {
-        setQuery("");
-        setModalOpen(false);
-        onSuccess();
-      }
+
+        return city.name;
+      };
+
+      const promise = insertFavoritePromise();
+      toast.promise(promise, {
+        loading: `Saving ${city.name} to favorites...`,
+        success: (cityName) => `${cityName} added to favorites!`,
+        error: (error) => {
+          if (error.code === "23505") {
+            return `${city.name} is already in your favorites!`;
+          }
+          return `Failed to save ${city.name}. Please try again.`;
+        },
+      });
+
+      await promise;
+      setQuery("");
+      setModalOpen(false);
+      onSuccess();
     } catch (error) {
       console.error("Error saving favorite:", error);
-      alert(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsSaving(false);
     }
@@ -93,7 +106,7 @@ export default function ModalAddFavorite({
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogTitle className="text-2xl text-shadow-neutral-800 dark:text-neutral-200 font-bold mb-2">
           Add Favorite Location
         </DialogTitle>

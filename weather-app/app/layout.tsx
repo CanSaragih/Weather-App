@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { WeatherProvider } from "@/contexts/WeatherContext";
 import { NavbarDemo } from "@/components/layout/NavbarDemo";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
           <WeatherProvider>
             <NavbarDemo />
             {children}
+            <Toaster position="top-center" duration={3000} />
           </WeatherProvider>
         </ThemeProvider>
       </body>
