@@ -2,6 +2,18 @@ import { Droplet, Wind } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { SlOptionsVertical } from "react-icons/sl";
+import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { AlertDialog } from "../ui/alert-dialog";
+import AlertDialogDelete from "../AlertDialog";
 
 interface CityFavoriteCardProps {
   favorites: {
@@ -29,6 +41,11 @@ export default function CityFavoriteCard({
   favorites,
   handleDelete,
 }: CityFavoriteCardProps) {
+  const [showAlert, setShowAlert] = useState(false);
+  const [selectedFavoriteId, setSelectedFavoriteId] = useState<string | null>(
+    null,
+  );
+
   return (
     <>
       {favorites.map((location) => (
@@ -75,19 +92,46 @@ export default function CityFavoriteCard({
             </div>
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute top-2 right-2 transition-opacity text-zinc-600 dark:text-zinc-400 opacity-0 group-hover:opacity-100 cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDelete(location.id);
-            }}
-          >
-            <SlOptionsVertical />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              asChild
+              className="absolute top-4 right-2 transition-opacity text-zinc-600 dark:text-zinc-400 lg:opacity-0 lg:group-hover:opacity-100  cursor-pointer"
+            >
+              <SlOptionsVertical />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40" align="start">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                  Actions
+                </DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setSelectedFavoriteId(location.id);
+                    setShowAlert(true);
+                  }}
+                  className="cursor-pointer"
+                >
+                  Delete
+                  <DropdownMenuShortcut> ⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       ))}
+
+      {showAlert && (
+        <AlertDialogDelete
+          open={showAlert}
+          onOpenChange={setShowAlert}
+          onConfirm={() => {
+            if (selectedFavoriteId) {
+              handleDelete(selectedFavoriteId);
+              setSelectedFavoriteId(null);
+            }
+          }}
+        />
+      )}
     </>
   );
 }

@@ -1,4 +1,4 @@
-"use client"; // Tambahkan ini karena kita akan mengambil data dari context
+"use client";
 
 import { useWeather } from "@/contexts/WeatherContext";
 import WeatherCard from "@/components/weather/WeatherCard";
